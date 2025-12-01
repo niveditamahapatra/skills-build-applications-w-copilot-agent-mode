@@ -20,12 +20,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-++at*4+3g7v+8fwsk6(w$&i$87-+1s!=)$h3)=g2bzk0k^bbh='
+SECRET_KEY = 'django-insecure-d-416w2h4_3tuvpr5+iqvuc&v$bt9%2p$lblhv@t%8wn&)+t5d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['*']
+CORS_ALLOW_METHODS = ['DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
 
 
 # Application definition
@@ -37,9 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'octofit_tracker',
+    'rest_framework',
+    'djongo',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -75,8 +86,13 @@ WSGI_APPLICATION = 'octofit_tracker.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'octofit_db',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'localhost',
+            'port': 27017,
+        },
     }
 }
 
